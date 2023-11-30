@@ -1,5 +1,7 @@
 package com.tobeto.kadir.rentacarsql.services.dtos.request.rentals;
 
+import com.tobeto.kadir.rentacarsql.entities.Cars;
+import com.tobeto.kadir.rentacarsql.entities.Users;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,5 +12,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class AddRentalsRequest {
     private Date rentalDate;
-    private Date returnDate;
+    private Cars car;
+    private Users user;
 }

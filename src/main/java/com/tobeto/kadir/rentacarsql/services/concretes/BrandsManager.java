@@ -4,7 +4,6 @@ import com.tobeto.kadir.rentacarsql.entities.Brands;
 import com.tobeto.kadir.rentacarsql.repositories.BrandsRepository;
 import com.tobeto.kadir.rentacarsql.services.abstracts.BrandsService;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.brands.AddBrandsRequest;
-import com.tobeto.kadir.rentacarsql.services.dtos.request.brands.DeleteBrandsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.brands.UpdateBrandsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.brands.GetBrandsListResponse;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.brands.GetBrandsResponse;
@@ -55,9 +54,10 @@ public class BrandsManager implements BrandsService {
     }
 
     @Override
-    public void delete(int id, DeleteBrandsRequest deleteBrandsRequest) {
+    public void delete(int id) {
         Brands deleteBrands = brandsRepository.findById(id).orElseThrow();
         deleteBrands.setId(deleteBrands.getId());
         brandsRepository.save(deleteBrands);
     }
+
 }

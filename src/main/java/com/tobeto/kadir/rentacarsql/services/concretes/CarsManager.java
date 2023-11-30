@@ -1,4 +1,68 @@
 package com.tobeto.kadir.rentacarsql.services.concretes;
 
-public class CarsManager {
+import com.tobeto.kadir.rentacarsql.entities.Cars;
+import com.tobeto.kadir.rentacarsql.repositories.CarsRepository;
+import com.tobeto.kadir.rentacarsql.services.abstracts.CarsService;
+import com.tobeto.kadir.rentacarsql.services.dtos.request.cars.AddCarsRequest;
+import com.tobeto.kadir.rentacarsql.services.dtos.request.cars.UpdateCarsRequest;
+import com.tobeto.kadir.rentacarsql.services.dtos.responses.cars.GetCarsListResponse;
+import com.tobeto.kadir.rentacarsql.services.dtos.responses.cars.GetCarsResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CarsManager implements CarsService {
+    //private final CarsRepository carsRepository;
+    private CarsRepository carsRepository;
+    @Override
+    public List<GetCarsListResponse> getAll() {
+        List<Cars> carsList = carsRepository.findAll();
+        List<GetCarsListResponse> carsListResponses = new ArrayList<>();
+        for (Cars cars: carsList) {
+            GetCarsListResponse carsListResponse = new GetCarsListResponse();
+            carsListResponse.setId(cars.getId());
+            carsListResponse.setCarType(cars.getCarType());
+            carsListResponse.setDailyPrice(cars.getDailyPrice());
+            carsListResponse.setModels(cars.getModels());
+            carsListResponses.add(carsListResponse);
+        }
+
+        return carsListResponses;
+    }
+
+    @Override
+    public GetCarsResponse getById(int id) {
+        Cars cars = carsRepository.findById(id).orElseThrow();
+        GetCarsResponse dto = new GetCarsResponse();
+        dto.setCarType(cars.getCarType());
+        dto.setDailyPrice(cars.getDailyPrice());
+        dto.setModels(cars.getModels());
+        return dto;
+    }
+
+    @Override
+    public void add(AddCarsRequest request) {
+        Cars cars = new Cars();
+        cars.setDailyPrice(request.getDailyPrice());
+        cars.setModels(request.getModels());
+        cars.setCarType(request.getCarType());
+        carsRepository.save(cars);
+
+    }
+
+    @Override
+    public void update(UpdateCarsRequest updateCar) {
+        Cars carsUpdate = carsRepository.findById(updateCar.getId()).orElseThrow();
+        carsUpdate.setCarType(updateCar.getCarType());
+        carsUpdate.setDailyPrice(updateCar.getDailyPrice());
+        carsUpdate.setModels(updateCar.getModels());
+        carsRepository.save(carsUpdate);
+
+    }
+
+    @Override
+    public void delete(int id) {
+        carsRepository.deleteById(id);
+
+    }
 }

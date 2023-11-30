@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetUsersListResponse {
+    private int id;
     private String firstName;
     private String lastName;
     private int age;
