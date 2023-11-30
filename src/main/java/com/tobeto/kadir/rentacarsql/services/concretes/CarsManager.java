@@ -7,13 +7,16 @@ import com.tobeto.kadir.rentacarsql.services.dtos.request.cars.AddCarsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.cars.UpdateCarsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.cars.GetCarsListResponse;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.cars.GetCarsResponse;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@AllArgsConstructor
+@Service
 public class CarsManager implements CarsService {
-    //private final CarsRepository carsRepository;
-    private CarsRepository carsRepository;
+
+    private final CarsRepository carsRepository;
     @Override
     public List<GetCarsListResponse> getAll() {
         List<Cars> carsList = carsRepository.findAll();
@@ -51,8 +54,8 @@ public class CarsManager implements CarsService {
     }
 
     @Override
-    public void update(UpdateCarsRequest updateCar) {
-        Cars carsUpdate = carsRepository.findById(updateCar.getId()).orElseThrow();
+    public void update(int id, UpdateCarsRequest updateCar) {
+        Cars carsUpdate = carsRepository.findById(id).orElseThrow();
         carsUpdate.setCarType(updateCar.getCarType());
         carsUpdate.setDailyPrice(updateCar.getDailyPrice());
         carsUpdate.setModels(updateCar.getModels());

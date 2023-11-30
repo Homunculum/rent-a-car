@@ -1,5 +1,6 @@
 package com.tobeto.kadir.rentacarsql.controllers;
 
+import com.tobeto.kadir.rentacarsql.services.abstracts.RentalsService;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.rentals.AddRentalsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.rentals.UpdateRentalsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.rentals.GetRentalsListResponse;
@@ -16,51 +17,32 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("api/rentals")
 public class RentalsController {
-    private final RentalsRepository rentalsRepository;
+    private final RentalsService rentalsService;
 
     @GetMapping
     public List<GetRentalsListResponse> getAll() {
-        List<Rentals> rentalsList = rentalsRepository.findAll();
-        List<GetRentalsListResponse> getRentalsListResponses= new ArrayList<>();
-        for (Rentals rentals: rentalsList
-             ) {
-            GetRentalsListResponse rentalsListResponse = new GetRentalsListResponse();
-            rentalsListResponse.setRentalDate(rentals.getRentalDate());
-            rentalsListResponse.setReturnDate(rentals.getReturnDate());
-            getRentalsListResponses.add(rentalsListResponse);
-        }
-        return getRentalsListResponses;
+
+        return rentalsService.getAll();
     }
 
     @GetMapping("{id}")
     public GetRentalsResponse getById(@PathVariable int id) {
-        Rentals rentals = rentalsRepository.findById(id).orElseThrow();
-        GetRentalsResponse getRentalsResponse = new GetRentalsResponse();
-        getRentalsResponse.setRentalDate(rentals.getRentalDate());
-        getRentalsResponse.setReturnDate(rentals.getReturnDate());
-        return getRentalsResponse;
+
+        return rentalsService.getById(id);
     }
 
     @PostMapping
     public void add(@RequestBody AddRentalsRequest addRentalsRequest) {
-        Rentals rentals=new Rentals();
-        rentals.setRentalDate(addRentalsRequest.getRentalDate());
-        rentals.setReturnDate(addRentalsRequest.getReturnDate());
-
-        rentalsRepository.save(rentals);
+        rentalsService.add(addRentalsRequest);
     }
 
     @PutMapping
     public void update(@PathVariable int id, UpdateRentalsRequest updateRentalsRequest) {
-       Rentals rentals= rentalsRepository.findById(id).orElseThrow();
-       rentals.setId(updateRentalsRequest.getId());
-       rentals.setRentalDate(updateRentalsRequest.getRentalDate());
-       rentals.setReturnDate(updateRentalsRequest.getReturnDate());
+      rentalsService.update(id, updateRentalsRequest);
     }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable int id) {
-        Rentals rentalsDelete = rentalsRepository.findById(id).orElseThrow();
-        rentalsRepository.delete(rentalsDelete);
+       rentalsService.delete(id);
     }
 }

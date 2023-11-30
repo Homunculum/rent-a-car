@@ -11,7 +11,7 @@ public interface UsersService {
     List<GetUsersListResponse> getAll();
     GetUsersResponse getById(int id);
     void add(AddUsersRequest addUserRequest);
-    void update(UpdateUsersRequest updateUsersRequest);
+    void update(int id,UpdateUsersRequest updateUsersRequest);
     void delete(int id);
 
 }

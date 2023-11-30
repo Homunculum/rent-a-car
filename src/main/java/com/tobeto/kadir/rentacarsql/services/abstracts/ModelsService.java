@@ -11,6 +11,6 @@ public interface ModelsService {
     List<GetModelsListResponse> getAll();
     GetModelsResponse getById(int id);
     void add(AddModelsRequest addModelsRequest);
-    void update(UpdateModelsRequest updateModelsRequest);
+    void update(int id, UpdateModelsRequest updateModelsRequest);
     void delete(int id);
 }

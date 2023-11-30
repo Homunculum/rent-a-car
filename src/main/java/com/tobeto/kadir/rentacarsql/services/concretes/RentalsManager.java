@@ -8,12 +8,16 @@ import com.tobeto.kadir.rentacarsql.services.dtos.request.rentals.AddRentalsRequ
 import com.tobeto.kadir.rentacarsql.services.dtos.request.rentals.UpdateRentalsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.rentals.GetRentalsListResponse;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.rentals.GetRentalsResponse;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@Service
 public class RentalsManager implements RentalsService {
-    private RentalsRepository rentalsRepository;
+    private final RentalsRepository rentalsRepository;
     @Override
     public List<GetRentalsListResponse> getAll() {
         List<Rentals> rentalsList = rentalsRepository.findAll();
@@ -54,12 +58,12 @@ public class RentalsManager implements RentalsService {
 
     @Override
     public void update(int id, UpdateRentalsRequest updateRentals) {
-        Rentals rentals = new Rentals();
-        rentals.setRentalDate(updateRentals.getRentalDate());
-        rentals.setReturnDate(updateRentals.getReturnDate());
-        rentals.setUser(updateRentals.getUser());
-        rentals.setCar(updateRentals.getCar());
-        rentalsRepository.save(rentals);
+        Rentals rentalsUpdate = rentalsRepository.findById(id).orElseThrow();
+        rentalsUpdate.setRentalDate(updateRentals.getRentalDate());
+        rentalsUpdate.setReturnDate(updateRentals.getReturnDate());
+        rentalsUpdate.setUser(updateRentals.getUser());
+        rentalsUpdate.setCar(updateRentals.getCar());
+        rentalsRepository.save(rentalsUpdate);
     }
 
     @Override

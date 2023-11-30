@@ -1,5 +1,6 @@
 package com.tobeto.kadir.rentacarsql.controllers;
 
+import com.tobeto.kadir.rentacarsql.services.abstracts.BrandsService;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.brands.AddBrandsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.brands.UpdateBrandsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.brands.GetBrandsListResponse;
@@ -17,7 +18,7 @@ import java.util.List;
 @RequestMapping("api/brands")
 public class BrandsController {
 
-    private final BrandsRepository brandsRepository;
+    private final BrandsService brandsService;
 
 
 
@@ -25,46 +26,28 @@ public class BrandsController {
     @GetMapping
     public List<GetBrandsListResponse> getAll() {
 
-        List<Brands> brands = brandsRepository.findAll();
-        List<GetBrandsListResponse> brandsResponseList = new ArrayList<>();
-
-        for (Brands brand: brands) {
-            GetBrandsListResponse brandsResponse = new GetBrandsListResponse();
-            brandsResponse.setBrandName(brand.getBrandName());
-            brandsResponseList.add(brandsResponse);
-            
-        }
-        return brandsResponseList;
+        return brandsService.getAll();
     }
 
     @GetMapping("{id}")
     public GetBrandsResponse getById(@PathVariable int id) {
 
-        Brands brands = brandsRepository.findById(id).orElseThrow();
-        GetBrandsResponse dto = new GetBrandsResponse();
-        dto.setBrandName(brands.getBrandName());
-        return dto;
+        return brandsService.getById(id);
     }
 
     @PostMapping
     public void add(@RequestBody AddBrandsRequest request) {
 
-        Brands brands = new Brands();
-        brands.setBrandName(request.getBrandName());
-        brandsRepository.save(brands);
+        brandsService.add(request);
     }
 
     @PutMapping("{id}")
     public void update(@PathVariable int id, @RequestBody UpdateBrandsRequest updateBrandsRequest) {
-        Brands brands = new Brands();
-        brandsRepository.findById(brands.getId()).orElseThrow();
-        brands.setId(updateBrandsRequest.getId());
-        brands.setBrandName(updateBrandsRequest.getBrandName());
+       brandsService.update(id, updateBrandsRequest);
     }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable int id) {
-        Brands brandsDelete = brandsRepository.findById(id).orElseThrow();
-        brandsRepository.delete(brandsDelete);
+        brandsService.delete(id);
     }
 }

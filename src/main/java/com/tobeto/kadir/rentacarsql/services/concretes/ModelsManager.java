@@ -7,12 +7,16 @@ import com.tobeto.kadir.rentacarsql.services.dtos.request.models.AddModelsReques
 import com.tobeto.kadir.rentacarsql.services.dtos.request.models.UpdateModelsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.models.GetModelsListResponse;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.models.GetModelsResponse;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@Service
 public class ModelsManager implements ModelsService {
-    private ModelsRepository modelsRepository;
+    private final ModelsRepository modelsRepository;
 
     @Override
     public List<GetModelsListResponse> getAll() {
@@ -51,8 +55,8 @@ public class ModelsManager implements ModelsService {
     }
 
     @Override
-    public void update(UpdateModelsRequest updateModelsRequest) {
-        Models modelsUpdate = modelsRepository.findById(updateModelsRequest.getId()).orElseThrow();
+    public void update(int id,UpdateModelsRequest updateModelsRequest) {
+        Models modelsUpdate = modelsRepository.findById(id).orElseThrow();
         modelsUpdate.setModelYear(updateModelsRequest.getModelYear());
         modelsUpdate.setModelName(updateModelsRequest.getModelName());
         modelsUpdate.setBrands(updateModelsRequest.getBrands());

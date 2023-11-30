@@ -7,13 +7,16 @@ import com.tobeto.kadir.rentacarsql.services.dtos.request.users.AddUsersRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.users.UpdateUsersRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.users.GetUsersListResponse;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.users.GetUsersResponse;
+import lombok.AllArgsConstructor;
 import org.apache.catalina.User;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@AllArgsConstructor
+@Service
 public class UsersManager implements UsersService {
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
     @Override
     public List<GetUsersListResponse> getAll() {
         List<Users> usersList = usersRepository.findAll();
@@ -60,15 +63,15 @@ public class UsersManager implements UsersService {
     }
 
     @Override
-    public void update(UpdateUsersRequest updateUsersRequest) {
-        Users users = usersRepository.findById(updateUsersRequest.getId()).orElseThrow();
-        users.setFirstName(updateUsersRequest.getFirstName());
-        users.setLastName(updateUsersRequest.getLastName());
-        users.setAge(updateUsersRequest.getAge());
-        users.setAddress(updateUsersRequest.getAddress());
-        users.setPhone(updateUsersRequest.getPhone());
-        users.setEmail(updateUsersRequest.getEmail());
-        usersRepository.save(users);
+    public void update(int id,UpdateUsersRequest updateUsersRequest) {
+        Users usersUpdate = usersRepository.findById(id).orElseThrow();
+        usersUpdate.setFirstName(updateUsersRequest.getFirstName());
+        usersUpdate.setLastName(updateUsersRequest.getLastName());
+        usersUpdate.setAge(updateUsersRequest.getAge());
+        usersUpdate.setAddress(updateUsersRequest.getAddress());
+        usersUpdate.setPhone(updateUsersRequest.getPhone());
+        usersUpdate.setEmail(updateUsersRequest.getEmail());
+        usersRepository.save(usersUpdate);
     }
 
     @Override
