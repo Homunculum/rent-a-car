@@ -18,7 +18,7 @@ public class ModelsController {
     private final ModelsService modelsService;
 
 
-    @GetMapping("search")
+    @GetMapping("searchName")
     public List<GetModelsListResponse> search (@RequestParam String modelName){
         return this.modelsService.search(modelName);
     }

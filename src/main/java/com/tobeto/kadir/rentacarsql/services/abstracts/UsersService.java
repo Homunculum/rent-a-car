@@ -1,5 +1,6 @@
 package com.tobeto.kadir.rentacarsql.services.abstracts;
 
+import com.tobeto.kadir.rentacarsql.entities.Users;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.users.AddUsersRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.users.UpdateUsersRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.users.GetUsersListResponse;
@@ -14,5 +15,5 @@ public interface UsersService {
     void update(int id,UpdateUsersRequest updateUsersRequest);
     void delete(int id);
     List<GetUsersListResponse> getUsersByNames(String firstName, String lastName);
-
+    List<Users> getUsersByAges(int ageStart, int ageEnd);
 }

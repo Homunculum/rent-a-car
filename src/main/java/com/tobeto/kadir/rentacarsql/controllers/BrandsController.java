@@ -18,7 +18,7 @@ public class BrandsController {
     private final BrandsService brandsService;
 
 
-    @GetMapping()
+    @GetMapping("searchName")
     public List<GetBrandsListResponse> getByName(@RequestParam String name)
     {
         return this.brandsService.getByName(name);

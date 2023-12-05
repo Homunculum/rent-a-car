@@ -41,11 +41,17 @@ public class UsersController {
     public void delete(@PathVariable int id) {
         usersService.delete(id);
     }
-    @GetMapping("/search")
+    @GetMapping("/searchName")
     public List<GetUsersListResponse> getUsersByNames(
             @RequestParam String firstName,
             @RequestParam String lastName) {
         return this.usersService.getUsersByNames(firstName, lastName);
+    }
+    @GetMapping("/ageBetween")
+    public List<Users> getUsersByAges(
+            @RequestParam(name = "ageStart") int ageStart,
+            @RequestParam(name = "ageEnd") int ageEnd) {
+        return usersService.getUsersByAges(ageStart,ageEnd);
     }
 
 }

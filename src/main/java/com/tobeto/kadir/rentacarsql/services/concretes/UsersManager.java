@@ -16,11 +16,12 @@ import java.util.List;
 @Service
 public class UsersManager implements UsersService {
     private final UsersRepository usersRepository;
+
     @Override
     public List<GetUsersListResponse> getAll() {
         List<Users> usersList = usersRepository.findAll();
-        List<GetUsersListResponse> usersListResponses=new ArrayList<>();
-        for (Users users: usersList) {
+        List<GetUsersListResponse> usersListResponses = new ArrayList<>();
+        for (Users users : usersList) {
             GetUsersListResponse usersListResponse = new GetUsersListResponse();
             usersListResponse.setFirstName(users.getFirstName());
             usersListResponse.setLastName(users.getLastName());
@@ -61,7 +62,7 @@ public class UsersManager implements UsersService {
     }
 
     @Override
-    public void update(int id,UpdateUsersRequest updateUsersRequest) {
+    public void update(int id, UpdateUsersRequest updateUsersRequest) {
         Users usersUpdate = usersRepository.findById(id).orElseThrow();
         usersUpdate.setFirstName(updateUsersRequest.getFirstName());
         usersUpdate.setLastName(updateUsersRequest.getLastName());
@@ -92,4 +93,12 @@ public class UsersManager implements UsersService {
         return response;
     }
 
+    @Override
+    public List<Users> getUsersByAges(int ageStart, int ageEnd) {
+        return usersRepository.findByAgeBetween(ageStart,ageEnd);
+    }
+
+
 }
+
+

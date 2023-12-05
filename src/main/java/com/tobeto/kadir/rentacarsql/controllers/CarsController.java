@@ -17,7 +17,7 @@ public class CarsController {
     
     private final CarsService carsService;
 
-    @GetMapping("search")
+    @GetMapping("searchType")
     public List<GetCarsListResponse> search (@RequestParam String carType){
         return this.carsService.search(carType);
     }
