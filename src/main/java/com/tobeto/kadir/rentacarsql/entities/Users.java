@@ -1,14 +1,13 @@
 package com.tobeto.kadir.rentacarsql.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tobeto.kadir.rentacarsql.entities.Rentals;
 import jakarta.persistence.*;
-
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter

@@ -8,7 +8,6 @@ import com.tobeto.kadir.rentacarsql.services.dtos.request.users.UpdateUsersReque
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.users.GetUsersListResponse;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.users.GetUsersResponse;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ public class UsersManager implements UsersService {
         List<GetUsersListResponse> usersListResponses=new ArrayList<>();
         for (Users users: usersList) {
             GetUsersListResponse usersListResponse = new GetUsersListResponse();
-            usersListResponse.setId(users.getId());
             usersListResponse.setFirstName(users.getFirstName());
             usersListResponse.setLastName(users.getLastName());
             usersListResponse.setAge(users.getAge());
@@ -79,4 +77,19 @@ public class UsersManager implements UsersService {
         usersRepository.deleteById(id);
 
     }
+
+    /*@Override
+    public List<Users> getUsersByNames(String firstName, String lastName) {
+        return usersRepository.findByFirstNameLikeIgnoreCaseAndLastNameLikeIgnoreCaseAllIgnoreCase(firstName, lastName);
+    }*/
+    @Override
+    public List<GetUsersListResponse> getUsersByNames(String firstName, String lastName) {
+        List<Users> usersList = usersRepository.findByFirstNameLikeIgnoreCaseAndLastNameLikeIgnoreCaseAllIgnoreCase("%" + firstName + "%", "%" + lastName + "%");
+        List<GetUsersListResponse> response = new ArrayList<>();
+        for (Users users : usersList) {
+            response.add(new GetUsersListResponse(users.getFirstName(), users.getLastName(), users.getAge(), users.getPhone(), users.getEmail(), users.getAddress()));
+        }
+        return response;
+    }
+
 }

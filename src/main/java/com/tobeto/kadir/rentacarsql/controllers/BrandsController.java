@@ -5,12 +5,9 @@ import com.tobeto.kadir.rentacarsql.services.dtos.request.brands.AddBrandsReques
 import com.tobeto.kadir.rentacarsql.services.dtos.request.brands.UpdateBrandsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.brands.GetBrandsListResponse;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.brands.GetBrandsResponse;
-import com.tobeto.kadir.rentacarsql.entities.Brands;
-import com.tobeto.kadir.rentacarsql.repositories.BrandsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

@@ -13,5 +13,6 @@ public interface UsersService {
     void add(AddUsersRequest addUserRequest);
     void update(int id,UpdateUsersRequest updateUsersRequest);
     void delete(int id);
+    List<GetUsersListResponse> getUsersByNames(String firstName, String lastName);
 
 }

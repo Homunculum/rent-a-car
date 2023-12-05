@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetRentalsListResponse {
-    private int id;
+
     private Date rentalDate;
     private Date returnDate;
     private int totalPrice;

@@ -25,10 +25,9 @@ public class ModelsManager implements ModelsService {
         for (Models models:
             modelsList ) {
             GetModelsListResponse modelListResponse = new GetModelsListResponse();
-            modelListResponse.setId(models.getId());
             modelListResponse.setModelName(models.getModelName());
             modelListResponse.setModelYear(models.getModelYear());
-            modelListResponse.setBrands(models.getBrands());
+            modelListResponse.setBrands(models.getBrands().getName());
             modelsListResponses.add(modelListResponse);
         }
         return modelsListResponses;
@@ -68,5 +67,10 @@ public class ModelsManager implements ModelsService {
     public void delete(int id) {
         modelsRepository.deleteById(id);
 
+    }
+
+    @Override
+    public List<GetModelsListResponse> search(String modelName) {
+        return modelsRepository.findByModelNameLikeIgnoreCase(modelName);
     }
 }

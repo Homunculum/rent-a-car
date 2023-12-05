@@ -1,5 +1,6 @@
 package com.tobeto.kadir.rentacarsql.controllers;
 
+import com.tobeto.kadir.rentacarsql.entities.Users;
 import com.tobeto.kadir.rentacarsql.services.abstracts.UsersService;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.users.AddUsersRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.users.UpdateUsersRequest;
@@ -40,4 +41,11 @@ public class UsersController {
     public void delete(@PathVariable int id) {
         usersService.delete(id);
     }
+    @GetMapping("/search")
+    public List<GetUsersListResponse> getUsersByNames(
+            @RequestParam String firstName,
+            @RequestParam String lastName) {
+        return this.usersService.getUsersByNames(firstName, lastName);
+    }
+
 }

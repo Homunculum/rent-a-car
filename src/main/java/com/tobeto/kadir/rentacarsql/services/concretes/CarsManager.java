@@ -23,14 +23,19 @@ public class CarsManager implements CarsService {
         List<GetCarsListResponse> carsListResponses = new ArrayList<>();
         for (Cars cars: carsList) {
             GetCarsListResponse carsListResponse = new GetCarsListResponse();
-            carsListResponse.setId(cars.getId());
+
             carsListResponse.setCarType(cars.getCarType());
             carsListResponse.setDailyPrice(cars.getDailyPrice());
-            carsListResponse.setModels(cars.getModels());
+            carsListResponse.setModels(cars.getModels().getModelName());
             carsListResponses.add(carsListResponse);
         }
 
         return carsListResponses;
+    }
+    @Override
+    public List<GetCarsListResponse> search(String carType){
+
+        return carsRepository.search(carType);
     }
 
     @Override

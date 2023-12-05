@@ -6,12 +6,9 @@ import com.tobeto.kadir.rentacarsql.services.dtos.request.models.AddModelsReques
 import com.tobeto.kadir.rentacarsql.services.dtos.request.models.UpdateModelsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.models.GetModelsListResponse;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.models.GetModelsResponse;
-import com.tobeto.kadir.rentacarsql.entities.Models;
-import com.tobeto.kadir.rentacarsql.repositories.ModelsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,6 +16,12 @@ import java.util.List;
 @RequestMapping("api/models")
 public class ModelsController {
     private final ModelsService modelsService;
+
+
+    @GetMapping("search")
+    public List<GetModelsListResponse> search (@RequestParam String modelName){
+        return this.modelsService.search(modelName);
+    }
 
     @GetMapping
     public List<GetModelsListResponse> getAll() {

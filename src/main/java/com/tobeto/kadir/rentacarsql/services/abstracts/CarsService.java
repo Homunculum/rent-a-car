@@ -13,4 +13,5 @@ public interface CarsService {
     void add (AddCarsRequest request);
     void update (int id, UpdateCarsRequest updateCar);
     void delete (int id);
+    List<GetCarsListResponse> search (String carType);
 }

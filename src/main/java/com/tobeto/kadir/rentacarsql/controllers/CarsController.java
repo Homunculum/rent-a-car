@@ -5,20 +5,22 @@ import com.tobeto.kadir.rentacarsql.services.dtos.request.cars.AddCarsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.cars.UpdateCarsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.cars.GetCarsListResponse;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.cars.GetCarsResponse;
-import com.tobeto.kadir.rentacarsql.entities.Cars;
-import com.tobeto.kadir.rentacarsql.repositories.CarsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/cars")
 public class CarsController {
+    
     private final CarsService carsService;
 
+    @GetMapping("search")
+    public List<GetCarsListResponse> search (@RequestParam String carType){
+        return this.carsService.search(carType);
+    }
     @GetMapping
     public List<GetCarsListResponse> getAll(){
 

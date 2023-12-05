@@ -24,7 +24,6 @@ public class RentalsManager implements RentalsService {
         List<GetRentalsListResponse> rentalsListResponses = new ArrayList<>();
         for (Rentals rentals: rentalsList) {
             GetRentalsListResponse rentalsListResponse = new GetRentalsListResponse();
-            rentalsListResponse.setId(rentals.getId());
             rentalsListResponse.setRentalDate(rentals.getRentalDate());
             rentalsListResponse.setReturnDate(rentals.getReturnDate());
             rentalsListResponse.setUser(rentals.getUser());

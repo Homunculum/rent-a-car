@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetUsersListResponse {
-    private int id;
     private String firstName;
     private String lastName;
     private int age;
     private int phone;
     private String email;
     private String address;
+
 }
