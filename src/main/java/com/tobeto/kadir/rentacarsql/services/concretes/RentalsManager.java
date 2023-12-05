@@ -9,6 +9,7 @@ import com.tobeto.kadir.rentacarsql.services.dtos.request.rentals.UpdateRentalsR
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.rentals.GetRentalsListResponse;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.rentals.GetRentalsResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -69,5 +70,11 @@ public class RentalsManager implements RentalsService {
     public void delete(int id) {
         rentalsRepository.deleteById(id);
 
+    }
+
+
+    @Override
+    public List<Rentals> getRentalsReturnDate() {
+        return rentalsRepository.findByReturnDateNotNull();
     }
 }

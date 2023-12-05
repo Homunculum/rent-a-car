@@ -1,11 +1,14 @@
 package com.tobeto.kadir.rentacarsql.controllers;
 
+import com.tobeto.kadir.rentacarsql.entities.Rentals;
 import com.tobeto.kadir.rentacarsql.services.abstracts.RentalsService;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.rentals.AddRentalsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.rentals.UpdateRentalsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.rentals.GetRentalsListResponse;
 import com.tobeto.kadir.rentacarsql.services.dtos.responses.rentals.GetRentalsResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,5 +44,11 @@ public class RentalsController {
     @DeleteMapping("{id}")
     public void delete(@PathVariable int id) {
        rentalsService.delete(id);
+    }
+
+    @GetMapping("/returnDateNotNull")
+    public ResponseEntity<List<Rentals>> getRentalsWithReturnDate() {
+        List<Rentals> rentals = rentalsService.getRentalsReturnDate();
+        return new ResponseEntity<>(rentals, HttpStatus.OK);
     }
 }
