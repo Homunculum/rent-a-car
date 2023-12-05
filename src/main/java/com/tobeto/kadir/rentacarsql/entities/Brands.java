@@ -21,7 +21,7 @@ public class Brands {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name")
-    private String brandName;
+    private String name;
 
     @OneToMany(mappedBy = "brands")
     @JsonIgnore

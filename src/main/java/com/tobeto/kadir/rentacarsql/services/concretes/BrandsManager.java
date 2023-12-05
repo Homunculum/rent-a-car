@@ -12,11 +12,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
 public class BrandsManager implements BrandsService {
     private final BrandsRepository brandsRepository;
+
+
     @Override
     public List<GetBrandsListResponse> getAll() {
         List<Brands> brandsList = brandsRepository.findAll();
@@ -24,8 +27,7 @@ public class BrandsManager implements BrandsService {
 
         for (Brands brands: brandsList) {
             GetBrandsListResponse dto = new GetBrandsListResponse();
-            dto.setId(brands.getId());
-            dto.setBrandName(brands.getBrandName());
+            dto.setName(brands.getName());
             getBrandsListResponses.add(dto);
         }
         return getBrandsListResponses;
@@ -35,21 +37,21 @@ public class BrandsManager implements BrandsService {
     public GetBrandsResponse getById(int id) {
         Brands brands = brandsRepository.findById(id).orElseThrow();
         GetBrandsResponse dto = new GetBrandsResponse();
-        dto.setBrandName(brands.getBrandName());
+        dto.setBrandName(brands.getName());
         return dto;
     }
 
     @Override
     public void add(AddBrandsRequest request) {
         Brands brands = new Brands();
-        brands.setBrandName(request.getBrandName());
+        brands.setName(request.getBrandName());
         brandsRepository.save(brands);
     }
 
     @Override
     public void update(int id, UpdateBrandsRequest updateBrands) {
         Brands existingBrands = brandsRepository.findById(id).orElseThrow();
-        existingBrands.setBrandName(updateBrands.getBrandName());
+        existingBrands.setName(updateBrands.getBrandName());
         brandsRepository.save(existingBrands);
     }
 
@@ -59,5 +61,16 @@ public class BrandsManager implements BrandsService {
         deleteBrands.setId(deleteBrands.getId());
         brandsRepository.save(deleteBrands);
     }
+
+    @Override
+    public List<GetBrandsListResponse> getByName(String name) {
+        List<Brands> brandsList = brandsRepository.findByNameLikeIgnoreCase("%"+name+"%");
+        List<GetBrandsListResponse> responses = new ArrayList<>();
+        for (Brands brands: brandsList) {
+            responses.add(new GetBrandsListResponse(brands.getName()));
+        }
+        return responses;
+    }
+
 
 }

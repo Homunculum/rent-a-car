@@ -21,9 +21,13 @@ public class BrandsController {
     private final BrandsService brandsService;
 
 
+    @GetMapping()
+    public List<GetBrandsListResponse> getByName(@RequestParam String name)
+    {
+        return this.brandsService.getByName(name);
+    }
 
-
-    @GetMapping
+  @GetMapping("getAll")
     public List<GetBrandsListResponse> getAll() {
 
         return brandsService.getAll();

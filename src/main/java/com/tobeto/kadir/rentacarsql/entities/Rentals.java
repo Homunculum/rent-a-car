@@ -31,12 +31,12 @@ public class Rentals {
     private int totalPrice;
 
     @ManyToOne
-    @JoinColumn(name = "cars_id")
-    private Cars car;
-
-    @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private Users user;
+
+    @ManyToOne
+    @JoinColumn(name = "cars_id")
+    private Cars car;
 
 }

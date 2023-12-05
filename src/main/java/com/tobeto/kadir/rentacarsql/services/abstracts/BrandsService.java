@@ -13,4 +13,8 @@ public interface BrandsService {
     void add(AddBrandsRequest request);
     void update(int id, UpdateBrandsRequest updateBrands);
     void delete(int id);
+    List<GetBrandsListResponse> getByName(String name);
+
+
+
 }
