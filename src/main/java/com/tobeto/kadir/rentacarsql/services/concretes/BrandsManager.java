@@ -1,6 +1,7 @@
 package com.tobeto.kadir.rentacarsql.services.concretes;
 
 import com.tobeto.kadir.rentacarsql.entities.Brands;
+import com.tobeto.kadir.rentacarsql.entities.Users;
 import com.tobeto.kadir.rentacarsql.repositories.BrandsRepository;
 import com.tobeto.kadir.rentacarsql.services.abstracts.BrandsService;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.brands.AddBrandsRequest;
@@ -18,7 +19,12 @@ import java.util.List;
 public class BrandsManager implements BrandsService {
     private final BrandsRepository brandsRepository;
 
-
+    private void validateUniqueName(String name) {
+        List<Brands>  existingBrand = brandsRepository.findByName(name);
+        if (existingBrand != null) {
+            throw new IllegalArgumentException("This name combination is already in use.");
+        }
+    }
     @Override
     public List<GetBrandsListResponse> getAll() {
         List<Brands> brandsList = brandsRepository.findAll();
@@ -42,6 +48,8 @@ public class BrandsManager implements BrandsService {
 
     @Override
     public void add(AddBrandsRequest request) {
+        validateUniqueName(request.getBrandName());
+
         Brands brands = new Brands();
         brands.setName(request.getBrandName());
         brandsRepository.save(brands);

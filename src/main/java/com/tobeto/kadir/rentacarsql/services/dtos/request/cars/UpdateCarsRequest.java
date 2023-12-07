@@ -12,5 +12,5 @@ public class UpdateCarsRequest {
     private int id;
     private String carType;
     private int dailyPrice;
-    private Models models;
+    private int modelsId;
 }

@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface RentalsRepository extends JpaRepository <Rentals,Integer>{
     List<Rentals> findByReturnDateNotNull();
+    List<Rentals> findByCar_Id(int carsId);
 
 }

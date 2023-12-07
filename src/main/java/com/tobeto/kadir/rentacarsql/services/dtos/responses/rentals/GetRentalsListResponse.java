@@ -15,8 +15,9 @@ public class GetRentalsListResponse {
 
     private Date rentalDate;
     private Date returnDate;
-    private int totalPrice;
-    private Cars car;
-    private Users user;
+    private Integer totalPrice;
+    private int car;
+    private int user;
+    private String additionalMessage;
 
 }

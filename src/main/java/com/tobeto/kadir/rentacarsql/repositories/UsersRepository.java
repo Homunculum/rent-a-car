@@ -12,6 +12,8 @@ public interface UsersRepository extends JpaRepository<Users,Integer> {
     List<Users> findByFirstNameLikeIgnoreCaseAndLastNameLikeIgnoreCaseAllIgnoreCase(String firstName, String lastName);
 
     List<Users> findByAgeBetween(int ageStart, int ageEnd);
+    List<Users>  findByFirstNameAndLastName(String firstName, String lastName);
+
 
 
 }

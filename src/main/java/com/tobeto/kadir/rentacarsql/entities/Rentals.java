@@ -28,7 +28,7 @@ public class Rentals {
     private Date returnDate;
 
     @Column(name = "total_price")
-    private int totalPrice;
+    private Integer totalPrice;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

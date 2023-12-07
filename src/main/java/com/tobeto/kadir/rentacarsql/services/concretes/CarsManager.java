@@ -1,7 +1,9 @@
 package com.tobeto.kadir.rentacarsql.services.concretes;
 
 import com.tobeto.kadir.rentacarsql.entities.Cars;
+import com.tobeto.kadir.rentacarsql.entities.Models;
 import com.tobeto.kadir.rentacarsql.repositories.CarsRepository;
+import com.tobeto.kadir.rentacarsql.repositories.ModelsRepository;
 import com.tobeto.kadir.rentacarsql.services.abstracts.CarsService;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.cars.AddCarsRequest;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.cars.UpdateCarsRequest;
@@ -17,6 +19,8 @@ import java.util.List;
 public class CarsManager implements CarsService {
 
     private final CarsRepository carsRepository;
+    private final ModelsRepository modelsRepository;
+
     @Override
     public List<GetCarsListResponse> getAll() {
         List<Cars> carsList = carsRepository.findAll();
@@ -44,15 +48,20 @@ public class CarsManager implements CarsService {
         GetCarsResponse dto = new GetCarsResponse();
         dto.setCarType(cars.getCarType());
         dto.setDailyPrice(cars.getDailyPrice());
-        dto.setModels(cars.getModels());
+        dto.setModelsName(cars.getModels().getModelName());
         return dto;
     }
 
     @Override
     public void add(AddCarsRequest request) {
+
+        Models models = modelsRepository.findById(Integer.valueOf(request.getModelsId()))
+                .orElseThrow(() -> new IllegalArgumentException("The specified model was not found"));
+
         Cars cars = new Cars();
+        cars.setId(request.getId());
         cars.setDailyPrice(request.getDailyPrice());
-        cars.setModels(request.getModels());
+        cars.setModels(models);
         cars.setCarType(request.getCarType());
         carsRepository.save(cars);
 
@@ -60,10 +69,13 @@ public class CarsManager implements CarsService {
 
     @Override
     public void update(int id, UpdateCarsRequest updateCar) {
+        Models models = modelsRepository.findById(Integer.valueOf(updateCar.getModelsId()))
+                .orElseThrow(() -> new IllegalArgumentException("The specified model was not found"));
+
         Cars carsUpdate = carsRepository.findById(id).orElseThrow();
         carsUpdate.setCarType(updateCar.getCarType());
         carsUpdate.setDailyPrice(updateCar.getDailyPrice());
-        carsUpdate.setModels(updateCar.getModels());
+        carsUpdate.setModels(models);
         carsRepository.save(carsUpdate);
 
     }

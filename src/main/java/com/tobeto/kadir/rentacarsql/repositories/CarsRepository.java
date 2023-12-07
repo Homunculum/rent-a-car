@@ -13,4 +13,6 @@ public interface CarsRepository extends JpaRepository<Cars,Integer> {
     "FROM Cars c WHERE c.carType LIKE %:carType%")
     List<GetCarsListResponse> search(String carType);
 
+
+
 }

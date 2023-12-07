@@ -14,6 +14,6 @@ public class UpdateRentalsRequest {
     private int id;
     private Date rentalDate;
     private Date returnDate;
-    private Cars car;
-    private Users user;
+    private int car;
+    private int user;
 }

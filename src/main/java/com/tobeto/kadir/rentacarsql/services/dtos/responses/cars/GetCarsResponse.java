@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class GetCarsResponse {
     private String carType;
     private int dailyPrice;
-    private Models models;
+    private String modelsName;
 }

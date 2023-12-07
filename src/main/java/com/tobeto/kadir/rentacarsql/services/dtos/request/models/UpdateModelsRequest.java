@@ -12,5 +12,5 @@ public class UpdateModelsRequest {
     private int id;
     private int modelYear;
     private String modelName;
-    private Brands brands;
+    private int brands;
 }

@@ -13,7 +13,7 @@ import java.util.Date;
 public class GetRentalsResponse {
     private Date rentalDate;
     private Date returnDate;
-    private int totalPrice;
+    private Integer totalPrice;
     private Cars car;
     private Users user;
 }

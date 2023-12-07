@@ -1,6 +1,9 @@
 package com.tobeto.kadir.rentacarsql.services.concretes;
 
+import com.tobeto.kadir.rentacarsql.entities.Brands;
 import com.tobeto.kadir.rentacarsql.entities.Models;
+import com.tobeto.kadir.rentacarsql.entities.Users;
+import com.tobeto.kadir.rentacarsql.repositories.BrandsRepository;
 import com.tobeto.kadir.rentacarsql.repositories.ModelsRepository;
 import com.tobeto.kadir.rentacarsql.services.abstracts.ModelsService;
 import com.tobeto.kadir.rentacarsql.services.dtos.request.models.AddModelsRequest;
@@ -17,7 +20,14 @@ import java.util.List;
 @Service
 public class ModelsManager implements ModelsService {
     private final ModelsRepository modelsRepository;
+    private final BrandsRepository brandsRepository;
 
+    private void validateUniqueModelNameAndModelYear(String modelName, int modelYear) {
+        List<Models>  existingModel = modelsRepository.findByModelNameAndModelYear(modelName, modelYear);
+        if (existingModel != null) {
+            throw new IllegalArgumentException("This name and year combination is already in use.");
+        }
+    }
     @Override
     public List<GetModelsListResponse> getAll() {
         List<Models> modelsList = modelsRepository.findAll();
@@ -35,7 +45,7 @@ public class ModelsManager implements ModelsService {
 
     @Override
     public GetModelsResponse getById(int id) {
-        Models models = new Models();
+        Models models = modelsRepository.findById(id).orElseThrow();
         GetModelsResponse dto = new GetModelsResponse();
         dto.setModelYear(models.getModelYear());
         dto.setModelName(models.getModelName());
@@ -45,9 +55,15 @@ public class ModelsManager implements ModelsService {
 
     @Override
     public void add(AddModelsRequest addModelsRequest) {
+
+        Brands brands = brandsRepository.findById(Integer.valueOf(addModelsRequest.getBrands())).
+                orElseThrow(()-> new IllegalArgumentException("The specified brand was not found"));
+
+        validateUniqueModelNameAndModelYear(addModelsRequest.getModelName(), addModelsRequest.getModelYear());
+
         Models models = new Models();
         models.setModelName(addModelsRequest.getModelName());
-        models.setBrands(addModelsRequest.getBrands());
+        models.setBrands(brands);
         models.setModelYear(models.getModelYear());
         modelsRepository.save(models);
 
@@ -55,14 +71,16 @@ public class ModelsManager implements ModelsService {
 
     @Override
     public void update(int id,UpdateModelsRequest updateModelsRequest) {
+        Brands brands = brandsRepository.findById(Integer.valueOf(updateModelsRequest.getBrands())).
+                orElseThrow(()-> new IllegalArgumentException("The specified brand was not found"));
         Models modelsUpdate = modelsRepository.findById(id).orElseThrow();
         modelsUpdate.setModelYear(updateModelsRequest.getModelYear());
         modelsUpdate.setModelName(updateModelsRequest.getModelName());
-        modelsUpdate.setBrands(updateModelsRequest.getBrands());
+        modelsUpdate.setBrands(brands);
         modelsRepository.save(modelsUpdate);
 
     }
-
+    
     @Override
     public void delete(int id) {
         modelsRepository.deleteById(id);

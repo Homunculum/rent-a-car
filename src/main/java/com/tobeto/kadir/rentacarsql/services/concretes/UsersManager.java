@@ -17,6 +17,8 @@ import java.util.List;
 public class UsersManager implements UsersService {
     private final UsersRepository usersRepository;
 
+
+
     @Override
     public List<GetUsersListResponse> getAll() {
         List<Users> usersList = usersRepository.findAll();
@@ -29,6 +31,7 @@ public class UsersManager implements UsersService {
             usersListResponse.setAddress(users.getAddress());
             usersListResponse.setPhone(users.getPhone());
             usersListResponse.setEmail(users.getEmail());
+            usersListResponses.add(usersListResponse);
 
         }
         return usersListResponses;
@@ -47,9 +50,22 @@ public class UsersManager implements UsersService {
 
         return dto;
     }
+    private void validateUniqueFirstNameAndLastName(String firstName, String lastName) {
+        List<Users>  existingUser = usersRepository.findByFirstNameAndLastName(firstName, lastName);
+        if (existingUser != null) {
+            throw new IllegalArgumentException("This name and surname combination is already in use.");
+        }
+    }
 
+    private void validateAge(int age){
+        if(age <18 || age >99){
+            throw new IllegalArgumentException("Age must be between 18 and 99 years.");
+        }
+    }
     @Override
     public void add(AddUsersRequest addUserRequest) {
+        validateUniqueFirstNameAndLastName(addUserRequest.getFirstName(), addUserRequest.getLastName());
+        validateAge(addUserRequest.getAge());
         Users users = new Users();
         users.setFirstName(addUserRequest.getFirstName());
         users.setLastName(addUserRequest.getLastName());
@@ -57,12 +73,17 @@ public class UsersManager implements UsersService {
         users.setAddress(addUserRequest.getAddress());
         users.setPhone(addUserRequest.getPhone());
         users.setEmail(addUserRequest.getEmail());
+
+
+
         usersRepository.save(users);
 
     }
 
     @Override
     public void update(int id, UpdateUsersRequest updateUsersRequest) {
+        validateUniqueFirstNameAndLastName(updateUsersRequest.getFirstName(), updateUsersRequest.getLastName());
+        validateAge(updateUsersRequest.getAge());
         Users usersUpdate = usersRepository.findById(id).orElseThrow();
         usersUpdate.setFirstName(updateUsersRequest.getFirstName());
         usersUpdate.setLastName(updateUsersRequest.getLastName());
@@ -79,10 +100,7 @@ public class UsersManager implements UsersService {
 
     }
 
-    /*@Override
-    public List<Users> getUsersByNames(String firstName, String lastName) {
-        return usersRepository.findByFirstNameLikeIgnoreCaseAndLastNameLikeIgnoreCaseAllIgnoreCase(firstName, lastName);
-    }*/
+
     @Override
     public List<GetUsersListResponse> getUsersByNames(String firstName, String lastName) {
         List<Users> usersList = usersRepository.findByFirstNameLikeIgnoreCaseAndLastNameLikeIgnoreCaseAllIgnoreCase("%" + firstName + "%", "%" + lastName + "%");
@@ -95,10 +113,10 @@ public class UsersManager implements UsersService {
 
     @Override
     public List<Users> getUsersByAges(int ageStart, int ageEnd) {
-        return usersRepository.findByAgeBetween(ageStart,ageEnd);
+        return usersRepository.findByAgeBetween(ageStart, ageEnd);
     }
 
 
+
+
 }
-
-
